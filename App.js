@@ -6,9 +6,22 @@ import AllExpensesScreen from "./screens/AllExpensesScreen";
 import RecentExpensesScreen from "./screens/RecentExpensesScreen";
 
 import { Ionicons } from "@expo/vector-icons";
+import { useFonts } from "expo-font";
+
+import AppLoading from "expo-app-loading";
 
 export default function App() {
   const Tab = createBottomTabNavigator();
+
+  const [fontsLoaded] = useFonts({
+    "open-sans": require("./assets/fonts/Inter-Regular.ttf"),
+    "open-sans-bold": require("./assets/fonts/Inter-Bold.ttf"),
+    "open-sans-semi-bold": require("./assets/fonts/Inter-SemiBold.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <>
@@ -27,6 +40,9 @@ export default function App() {
               backgroundColor: "#273c75",
               borderBottomWidth: 1,
               borderBottomColor: "#ccc",
+            },
+            headerTitleStyle: {
+              fontFamily: "open-sans-bold",
             },
             headerRight: () => (
               <Ionicons name="add-outline" size={30} color="white" />
