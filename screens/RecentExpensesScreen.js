@@ -8,7 +8,7 @@ export default function RecentExpensesScreen() {
     { id: 1, description: "Livro", price: 12.99, date: "13-10-2022" },
     { id: 2, description: "Pastel", price: 4.99, date: "15-10-2022" },
     { id: 3, description: "Pastel", price: 4.99, date: "16-10-2022" },
-    { id: 4, description: "Plug Anal", price: 49.99, date: "17-10-2022" },
+    { id: 4, description: "Chinelo", price: 49.99, date: "17-10-2022" },
   ];
 
   const totalExpenses = DUMMY_EXPENSES.map((expense) => expense.price)
