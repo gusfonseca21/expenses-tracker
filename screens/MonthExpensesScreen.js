@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, Text } from "react-native";
 import ExpenseItem from "../components/ExpenseItem";
 
 import { useContext } from "react";
@@ -10,17 +10,13 @@ import ExpensesItemsHeader from "../components/ExpensesItemsHeader";
 
 import { format } from "date-fns";
 
-export default function RecentExpensesScreen() {
+export function MonthExpensesScreen() {
   const { ALL_EXPENSES } = useContext(ExpenseDataContext);
 
-  const currentDay = format(new Date(), "dd");
   const currentMonth = format(new Date(), "M");
 
   const filteredExpenses = ALL_EXPENSES.filter(
-    (expense) =>
-      currentDay - format(expense.date, "dd") <= 7 &&
-      currentDay - format(expense.date, "dd") >= 0 &&
-      format(expense.date, "M") === currentMonth
+    (expense) => format(expense.date, "M") === currentMonth
   );
 
   const totalExpenses = numberWithCommas(
@@ -29,10 +25,11 @@ export default function RecentExpensesScreen() {
       .reduce((accumulator, curr) => accumulator + curr)
       .toFixed(2)
   );
+
   return (
     <View style={styles.rootContainer}>
       <ExpensesItemsHeader totalExpenses={totalExpenses}>
-        Gastos desta semana:
+        Gastos deste mês:
       </ExpensesItemsHeader>
       <View style={styles.items}>
         <FlatList
@@ -63,6 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ecf0f1",
     justifyContent: "space-between",
     marginVertical: 10,
+
     padding: 10,
     borderRadius: 4,
   },

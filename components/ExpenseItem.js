@@ -13,7 +13,9 @@ export default function ExpenseItem({ description, date, price }) {
         <TextComponent style={styles.itemViewText}>{date}</TextComponent>
       </View>
       <View style={styles.rightItemView}>
-        <TextComponent style={styles.rightItemViewText}>{price}</TextComponent>
+        <TextComponent
+          style={styles.rightItemViewText}
+        >{`R$ ${price}`}</TextComponent>
       </View>
     </View>
   );
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
   },
   rightItemView: {
     backgroundColor: "white",
-    width: 60,
+    width: 70,
     justifyContent: "center",
     borderRadius: 4,
   },

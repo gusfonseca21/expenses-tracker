@@ -1,12 +1,56 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { StyleSheet, View, FlatList } from "react-native";
+import TextComponent from "../components/TextComponent";
+import ExpenseItem from "../components/ExpenseItem";
+
+import { useContext } from "react";
+import { ExpenseDataContext } from "../context/ExpensesDataContext";
+
+import { numberWithCommas, numberWithoutCommas } from "../helper/helper";
+import ExpensesItemsHeader from "../components/ExpensesItemsHeader";
+
+import { format } from "date-fns";
 
 export default function AllExpensesScreen() {
+  const { ALL_EXPENSES } = useContext(ExpenseDataContext);
+
+  const totalExpenses = numberWithCommas(
+    ALL_EXPENSES.map((expense) => numberWithoutCommas(expense.price))
+      .reduce((accumulator, curr) => accumulator + curr)
+      .toFixed(2)
+      .toString()
+  );
   return (
-    <View>
-      <Text>AllExpensesScreen</Text>
+    <View style={styles.rootContainer}>
+      <ExpensesItemsHeader totalExpenses={totalExpenses}>
+        Todos os gastos:
+      </ExpensesItemsHeader>
+      <View style={styles.items}>
+        <FlatList
+          data={ALL_EXPENSES}
+          showsVerticalScrollIndicator={false}
+          renderItem={(itemData) => {
+            return (
+              <ExpenseItem
+                description={itemData.item.description}
+                date={format(itemData.item.date, "dd/MM/yyyy")}
+                price={itemData.item.price}
+              />
+            );
+          }}
+        />
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    marginHorizontal: 20,
+    // marginBottom: 70,
+  },
+  items: {
+    flexDirection: "column",
+  },
+});
