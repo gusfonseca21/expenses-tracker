@@ -10,7 +10,7 @@ import ExpensesItemsHeader from "../components/ExpensesItemsHeader";
 
 import { format } from "date-fns";
 
-export default function RecentExpensesScreen() {
+export default function RecentExpensesScreen({ navigation, route }) {
   const { ALL_EXPENSES } = useContext(ExpenseDataContext);
 
   const currentDay = format(new Date(), "dd");
@@ -44,6 +44,9 @@ export default function RecentExpensesScreen() {
                 description={itemData.item.description}
                 date={format(itemData.item.date, "dd/MM/yyyy")}
                 price={itemData.item.price}
+                navigation={navigation}
+                route={route}
+                id={itemData.item.id}
               />
             );
           }}

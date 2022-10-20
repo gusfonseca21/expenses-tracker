@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AllExpensesScreen from "./screens/AllExpensesScreen";
 import RecentExpensesScreen from "./screens/RecentExpensesScreen";
@@ -10,9 +11,9 @@ import RecentExpensesScreen from "./screens/RecentExpensesScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 
-import AppLoading from "expo-app-loading";
 import { ExpenseDataContext } from "./context/ExpensesDataContext";
 import { MonthExpensesScreen } from "./screens/MonthExpensesScreen";
+import DetailedExpense from "./screens/DetailedExpense";
 
 export default function App() {
   const [ALL_EXPENSES, setAllExpenses] = useState([
@@ -33,16 +34,13 @@ export default function App() {
   }, [ALL_EXPENSES]);
 
   const Tab = createBottomTabNavigator();
+  const Stack = createNativeStackNavigator();
 
-  const [fontsLoaded] = useFonts({
+  const [isLoaded] = useFonts({
     "open-sans": require("./assets/fonts/Inter-Regular.ttf"),
     "open-sans-bold": require("./assets/fonts/Inter-Bold.ttf"),
     "open-sans-semi-bold": require("./assets/fonts/Inter-SemiBold.ttf"),
   });
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
 
   const screenOptions = (icon, title) => {
     return {
@@ -55,53 +53,82 @@ export default function App() {
     };
   };
 
+  function MainTabNavigator() {
+    return (
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: {
+            backgroundColor: "#273c75",
+            borderTopWidth: 1,
+            borderTopColor: "#ccc",
+          },
+          tabBarActiveTintColor: "#e1b12c",
+          tabBarInactiveTintColor: "#ccc",
+          headerStyle: {
+            backgroundColor: "#273c75",
+            borderBottomWidth: 1,
+            borderBottomColor: "#ccc",
+          },
+          headerTitleStyle: {
+            fontFamily: "open-sans-bold",
+          },
+          headerRight: () => (
+            <Ionicons name="add-outline" size={30} color="white" />
+          ),
+        }}
+        sceneContainerStyle={{
+          backgroundColor: "#192a56",
+          paddingBottom: 70,
+        }}
+      >
+        <Tab.Screen
+          name="RecentExpenses"
+          component={RecentExpensesScreen}
+          options={screenOptions("alarm-outline", "Despesas Recentes")}
+        />
+        <Tab.Screen
+          name="MonthExpenses"
+          component={MonthExpensesScreen}
+          options={screenOptions("calendar-outline", "Despesas Mensais")}
+        />
+        <Tab.Screen
+          name="AllExpenses"
+          component={AllExpensesScreen}
+          options={screenOptions("calculator-outline", "Todas as Despesas")}
+        />
+      </Tab.Navigator>
+    );
+  }
+
   return (
     <>
       <StatusBar style="light" />
       <ExpenseDataContext.Provider value={{ ALL_EXPENSES, setAllExpenses }}>
         <NavigationContainer>
-          <Tab.Navigator
+          <Stack.Navigator
             screenOptions={{
-              tabBarStyle: {
-                backgroundColor: "#273c75",
-                borderTopWidth: 1,
-                borderTopColor: "#ccc",
-              },
-              tabBarActiveTintColor: "#e1b12c",
-              tabBarInactiveTintColor: "#ccc",
               headerStyle: {
                 backgroundColor: "#273c75",
-                borderBottomWidth: 1,
-                borderBottomColor: "#ccc",
               },
+              contentStyle: {
+                backgroundColor: "#192a56",
+              },
+              headerTintColor: "#ecf0f1",
               headerTitleStyle: {
-                fontFamily: "open-sans-bold",
+                color: "#e1b12c",
               },
-              headerRight: () => (
-                <Ionicons name="add-outline" size={30} color="white" />
-              ),
-            }}
-            sceneContainerStyle={{
-              backgroundColor: "#192a56",
-              paddingBottom: 70,
+              headerTitleAlign: "center",
             }}
           >
-            <Tab.Screen
-              name="RecentExpenses"
-              component={RecentExpensesScreen}
-              options={screenOptions("alarm-outline", "Despesas Recentes")}
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="Home"
+              component={MainTabNavigator}
             />
-            <Tab.Screen
-              name="MonthExpenses"
-              component={MonthExpensesScreen}
-              options={screenOptions("calendar-outline", "Despesas Mensais")}
-            />
-            <Tab.Screen
-              name="AllExpenses"
-              component={AllExpensesScreen}
-              options={screenOptions("calculator-outline", "Todas as Despesas")}
-            />
-          </Tab.Navigator>
+            <Stack.Screen name="Details" component={DetailedExpense} />
+          </Stack.Navigator>
         </NavigationContainer>
       </ExpenseDataContext.Provider>
     </>

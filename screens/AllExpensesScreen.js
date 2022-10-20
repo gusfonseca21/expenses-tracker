@@ -11,7 +11,7 @@ import ExpensesItemsHeader from "../components/ExpensesItemsHeader";
 
 import { format } from "date-fns";
 
-export default function AllExpensesScreen() {
+export default function AllExpensesScreen({ navigation, route }) {
   const { ALL_EXPENSES } = useContext(ExpenseDataContext);
 
   const totalExpenses = numberWithCommas(
@@ -35,6 +35,9 @@ export default function AllExpensesScreen() {
                 description={itemData.item.description}
                 date={format(itemData.item.date, "dd/MM/yyyy")}
                 price={itemData.item.price}
+                navigation={navigation}
+                route={route}
+                id={itemData.item.id}
               />
             );
           }}

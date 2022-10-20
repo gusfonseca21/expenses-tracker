@@ -1,34 +1,54 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Pressable } from "react-native";
 
 import TextComponent from "../components/TextComponent";
 
-export default function ExpenseItem({ description, date, price }) {
+export default function ExpenseItem({
+  description,
+  date,
+  price,
+  navigation,
+  route,
+  id,
+}) {
+  const pressHandler = () => {
+    navigation.navigate("Details", {
+      expenseId: id,
+    });
+  };
+
   return (
     <View style={styles.itemView}>
-      <View style={styles.leftItemView}>
-        <TextComponent style={styles.itemDescriptionText}>
-          {description}
-        </TextComponent>
-        <TextComponent style={styles.itemViewText}>{date}</TextComponent>
-      </View>
-      <View style={styles.rightItemView}>
-        <TextComponent
-          style={styles.rightItemViewText}
-        >{`R$ ${price}`}</TextComponent>
-      </View>
+      <Pressable onPress={pressHandler} android_ripple={{ color: "#ccc" }}>
+        <View style={styles.insidePressableView}>
+          <View style={styles.leftItemView}>
+            <TextComponent style={styles.itemDescriptionText}>
+              {description}
+            </TextComponent>
+            <TextComponent style={styles.itemViewText}>{date}</TextComponent>
+          </View>
+          <View style={styles.rightItemView}>
+            <TextComponent
+              style={styles.rightItemViewText}
+            >{`R$ ${price}`}</TextComponent>
+          </View>
+        </View>
+      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   itemView: {
+    marginTop: 10,
+    borderRadius: 4,
+    backgroundColor: "#273c75",
+    overflow: "hidden",
+  },
+  insidePressableView: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
     padding: 6,
-    backgroundColor: "#273c75",
-    borderRadius: 4,
   },
   leftItemView: {
     justifyContent: "center",
