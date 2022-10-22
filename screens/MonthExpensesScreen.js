@@ -28,27 +28,27 @@ export function MonthExpensesScreen({ navigation, route }) {
 
   return (
     <View style={styles.rootContainer}>
-      <ExpensesItemsHeader totalExpenses={totalExpenses}>
-        Gastos deste mês:
-      </ExpensesItemsHeader>
-      <View style={styles.items}>
-        <FlatList
-          data={filteredExpenses}
-          showsVerticalScrollIndicator={false}
-          renderItem={(itemData) => {
-            return (
-              <ExpenseItem
-                description={itemData.item.description}
-                date={format(itemData.item.date, "dd/MM/yyyy")}
-                price={itemData.item.price}
-                navigation={navigation}
-                route={route}
-                id={itemData.item.id}
-              />
-            );
-          }}
-        />
-      </View>
+      <FlatList
+        ListHeaderComponent={
+          <ExpensesItemsHeader totalExpenses={totalExpenses}>
+            Gastos deste mês:
+          </ExpensesItemsHeader>
+        }
+        data={filteredExpenses}
+        showsVerticalScrollIndicator={false}
+        renderItem={(itemData) => {
+          return (
+            <ExpenseItem
+              description={itemData.item.description}
+              date={format(itemData.item.date, "dd/MM/yyyy")}
+              price={itemData.item.price}
+              navigation={navigation}
+              route={route}
+              id={itemData.item.id}
+            />
+          );
+        }}
+      />
     </View>
   );
 }
@@ -66,8 +66,5 @@ const styles = StyleSheet.create({
 
     padding: 10,
     borderRadius: 4,
-  },
-  items: {
-    flexDirection: "column",
   },
 });

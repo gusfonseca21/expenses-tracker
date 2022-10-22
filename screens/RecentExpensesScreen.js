@@ -31,27 +31,27 @@ export function RecentExpensesScreen({ navigation, route }) {
   );
   return (
     <View style={styles.rootContainer}>
-      <ExpensesItemsHeader totalExpenses={totalExpenses}>
-        Gastos desta semana:
-      </ExpensesItemsHeader>
-      <View style={styles.items}>
-        <FlatList
-          data={filteredExpenses}
-          showsVerticalScrollIndicator={false}
-          renderItem={(itemData) => {
-            return (
-              <ExpenseItem
-                description={itemData.item.description}
-                date={format(itemData.item.date, "dd/MM/yyyy")}
-                price={itemData.item.price}
-                navigation={navigation}
-                route={route}
-                id={itemData.item.id}
-              />
-            );
-          }}
-        />
-      </View>
+      <FlatList
+        ListHeaderComponent={
+          <ExpensesItemsHeader totalExpenses={totalExpenses}>
+            Gastos desta semana:
+          </ExpensesItemsHeader>
+        }
+        data={filteredExpenses}
+        showsVerticalScrollIndicator={false}
+        renderItem={(itemData) => {
+          return (
+            <ExpenseItem
+              description={itemData.item.description}
+              date={format(itemData.item.date, "dd/MM/yyyy")}
+              price={itemData.item.price}
+              navigation={navigation}
+              route={route}
+              id={itemData.item.id}
+            />
+          );
+        }}
+      />
     </View>
   );
 }
@@ -68,8 +68,5 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     padding: 10,
     borderRadius: 4,
-  },
-  items: {
-    flexDirection: "column",
   },
 });
