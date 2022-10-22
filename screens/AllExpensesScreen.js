@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View, FlatList } from "react-native";
-import TextComponent from "../components/TextComponent";
-import ExpenseItem from "../components/ExpenseItem";
+import { ExpenseItem } from "../components/ExpenseItem";
 
 import { useContext } from "react";
 import { ExpenseDataContext } from "../context/ExpensesDataContext";
@@ -11,7 +10,7 @@ import ExpensesItemsHeader from "../components/ExpensesItemsHeader";
 
 import { format } from "date-fns";
 
-export default function AllExpensesScreen({ navigation, route }) {
+export function AllExpensesScreen({ navigation, route }) {
   const { ALL_EXPENSES } = useContext(ExpenseDataContext);
 
   const totalExpenses = numberWithCommas(
@@ -51,7 +50,6 @@ const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     marginHorizontal: 20,
-    // marginBottom: 70,
   },
   items: {
     flexDirection: "column",

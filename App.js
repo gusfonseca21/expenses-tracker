@@ -5,17 +5,20 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import AllExpensesScreen from "./screens/AllExpensesScreen";
-import RecentExpensesScreen from "./screens/RecentExpensesScreen";
+import { RecentExpensesScreen } from "./screens/RecentExpensesScreen";
+import { MonthExpensesScreen } from "./screens/MonthExpensesScreen";
+import { DetailedExpenseScreen } from "./screens/DetailedExpenseScreen";
+import { AllExpensesScreen } from "./screens/AllExpensesScreen";
+import { NewExpenseScreen } from "./screens/NewExpenseScreen";
+import { BookmarkedExpensesScreen } from "./screens/BookmarkedExpensesScreen";
 
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 
 import { ExpenseDataContext } from "./context/ExpensesDataContext";
-import { MonthExpensesScreen } from "./screens/MonthExpensesScreen";
-import DetailedExpense from "./screens/DetailedExpense";
 
 import AppLoading from "expo-app-loading";
+import { Pressable } from "react-native";
 
 export default function App() {
   const [ALL_EXPENSES, setAllExpenses] = useState([
@@ -25,6 +28,7 @@ export default function App() {
       price: "12,99",
       date: 1663027200000,
       obs: "",
+      isBookmarked: false,
     },
     {
       id: 2,
@@ -32,6 +36,7 @@ export default function App() {
       price: "4,99",
       date: 1663286400000,
       obs: "",
+      isBookmarked: false,
     },
     {
       id: 3,
@@ -39,6 +44,7 @@ export default function App() {
       price: "49,99",
       date: 1663372800000,
       obs: "",
+      isBookmarked: false,
     },
     {
       id: 4,
@@ -46,6 +52,7 @@ export default function App() {
       price: "99,99",
       date: 1663632000000,
       obs: "",
+      isBookmarked: false,
     },
     {
       id: 5,
@@ -53,6 +60,7 @@ export default function App() {
       price: "5,00",
       date: 1664236800000,
       obs: "",
+      isBookmarked: false,
     },
     {
       id: 6,
@@ -60,6 +68,7 @@ export default function App() {
       price: "200,00",
       date: 1664323200000,
       obs: "",
+      isBookmarked: false,
     },
     { id: 7, description: "Bar", price: "45,30", date: 1665446400000, obs: "" },
     {
@@ -68,6 +77,7 @@ export default function App() {
       price: "25,25",
       date: 1665532800000,
       obs: "",
+      isBookmarked: false,
     },
     {
       id: 9,
@@ -75,6 +85,7 @@ export default function App() {
       price: "20,99",
       date: 1665964800000,
       obs: "O corre corre da cidade grande",
+      isBookmarked: true,
     },
     {
       id: 10,
@@ -82,6 +93,7 @@ export default function App() {
       price: "2,00",
       date: 1666051200000,
       obs: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
+      isBookmarked: true,
     },
   ]);
 
@@ -113,7 +125,7 @@ export default function App() {
     return <AppLoading />;
   }
 
-  function MainTabNavigator() {
+  function MainTabNavigator({ navigation }) {
     return (
       <Tab.Navigator
         screenOptions={{
@@ -132,21 +144,26 @@ export default function App() {
           headerTitleStyle: {
             fontFamily: "open-sans-bold",
           },
+
           headerRight: () => (
-            <Ionicons
-              name="add-outline"
-              size={30}
-              color="white"
-              style={{ right: 15 }}
-            />
+            <Pressable onPress={() => navigation.navigate("NewExpense")}>
+              <Ionicons
+                name="add-outline"
+                size={30}
+                color="white"
+                style={{ right: 15 }}
+              />
+            </Pressable>
           ),
           headerLeft: () => (
-            <Ionicons
-              name="bookmark-outline"
-              size={25}
-              color="white"
-              style={{ left: 15 }}
-            />
+            <Pressable onPress={() => navigation.navigate("Bookmarked")}>
+              <Ionicons
+                name="bookmark-outline"
+                size={25}
+                color="white"
+                style={{ left: 15 }}
+              />
+            </Pressable>
           ),
         }}
         sceneContainerStyle={{
@@ -203,8 +220,18 @@ export default function App() {
             />
             <Stack.Screen
               name="Details"
-              component={DetailedExpense}
+              component={DetailedExpenseScreen}
               options={{ headerTitle: "Detalhes" }}
+            />
+            <Stack.Screen
+              name="NewExpense"
+              component={NewExpenseScreen}
+              options={{ headerTitle: "Nova Despesa" }}
+            />
+            <Stack.Screen
+              name="Bookmarked"
+              component={BookmarkedExpensesScreen}
+              options={{ headerTitle: "Despesas Favoritadas" }}
             />
           </Stack.Navigator>
         </NavigationContainer>

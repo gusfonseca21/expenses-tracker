@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, View, FlatList, Text } from "react-native";
-import ExpenseItem from "../components/ExpenseItem";
+import { StyleSheet, View, FlatList } from "react-native";
+import { ExpenseItem } from "../components/ExpenseItem";
 
 import { useContext } from "react";
 import { ExpenseDataContext } from "../context/ExpensesDataContext";

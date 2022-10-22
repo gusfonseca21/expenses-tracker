@@ -3,7 +3,7 @@ import { StyleSheet, View, Pressable } from "react-native";
 
 import TextComponent from "../components/TextComponent";
 
-export default function ExpenseItem({
+export function ExpenseItem({
   description,
   date,
   price,
