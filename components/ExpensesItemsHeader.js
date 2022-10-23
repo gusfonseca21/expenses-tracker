@@ -3,22 +3,30 @@ import { StyleSheet, View } from "react-native";
 
 import TextComponent from "./TextComponent";
 
-export default function ExpensesItemsHeader({ children, totalExpenses }) {
+export default function ExpensesItemsHeader({
+  children,
+  totalExpenses,
+  style,
+  textStyle,
+}) {
   return (
-    <View style={styles.itemsHeader}>
+    <View style={[styles.itemsHeader, style]}>
       <View>
         <TextComponent
-          style={{
-            textAlign: "center",
-            fontFamily: "open-sans",
-          }}
+          style={
+            ({
+              textAlign: "center",
+              fontFamily: "open-sans",
+            },
+            textStyle)
+          }
         >
           {children}
         </TextComponent>
       </View>
       <View>
         <TextComponent style={{ fontFamily: "open-sans-bold" }}>
-          {`R$ ${totalExpenses}`}
+          {totalExpenses}
         </TextComponent>
       </View>
     </View>
@@ -30,7 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#ecf0f1",
     justifyContent: "space-between",
-    marginVertical: 10,
+    marginTop: 20,
     padding: 10,
     borderRadius: 4,
   },

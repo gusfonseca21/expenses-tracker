@@ -1,109 +1,95 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  ScrollView,
-  SectionList,
-  Text,
-} from "react-native";
+import { StyleSheet, View, SectionList } from "react-native";
 import { ExpenseItem } from "../components/ExpenseItem";
 
 import { useContext } from "react";
 import { ExpenseDataContext } from "../context/ExpensesDataContext";
 
-import { numberWithCommas, numberWithoutCommas } from "../helper/helper";
+import { capitalizeFirstLetter, sumOfExpenses } from "../helper/helper";
 import ExpensesItemsHeader from "../components/ExpensesItemsHeader";
 
 import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 export function AllExpensesScreen({ navigation, route }) {
   const { ALL_EXPENSES } = useContext(ExpenseDataContext);
 
   const expensesPerMonth = [
-    { month: "January", expenses: [] },
-    { month: "February", expenses: [] },
-    { month: "March", expenses: [] },
-    { month: "April", expenses: [] },
-    { month: "May", expenses: [] },
-    { month: "June", expenses: [] },
-    { month: "July", expenses: [] },
-    { month: "August", expenses: [] },
-    { month: "September", expenses: [] },
-    { month: "October", expenses: [] },
-    { month: "November", expenses: [] },
-    { month: "December", expenses: [] },
+    { month: "janeiro", expenses: [], totalExpenses: 0 },
+    { month: "fevereiro", expenses: [], totalExpenses: 0 },
+    { month: "março", expenses: [], totalExpenses: 0 },
+    { month: "abril", expenses: [], totalExpenses: 0 },
+    { month: "maio", expenses: [], totalExpenses: 0 },
+    { month: "junho", expenses: [], totalExpenses: 0 },
+    { month: "julho", expenses: [], totalExpenses: 0 },
+    { month: "agosto", expenses: [], totalExpenses: 0 },
+    { month: "setembro", expenses: [], totalExpenses: 0 },
+    { month: "outubro", expenses: [], totalExpenses: 0 },
+    { month: "novembro", expenses: [], totalExpenses: 0 },
+    { month: "dezembro", expenses: [], totalExpenses: 0 },
   ];
 
   ALL_EXPENSES.forEach((expense) => {
     expensesPerMonth.forEach((month) => {
-      if (format(expense.date, "MMMM") === month.month) {
+      if (format(expense.date, "MMMM", { locale: ptBR }) === month.month) {
         month.expenses.push(expense);
       }
     });
   });
 
-  const monthsWithExpenses = expensesPerMonth.filter(
-    (month) => month.expenses.length > 0
-  );
+  const monthsWithExpenses = expensesPerMonth
+    .filter((month) => month.expenses.length > 0)
+    .reverse();
 
-  console.log(monthsWithExpenses);
-
-  const totalExpenses = numberWithCommas(
-    ALL_EXPENSES.map((expense) => numberWithoutCommas(expense.price))
-      .reduce((accumulator, curr) => accumulator + curr)
-      .toFixed(2)
-      .toString()
-  );
+  const totalExpenses = sumOfExpenses(ALL_EXPENSES);
 
   return (
     <View style={styles.rootContainer}>
-      {/* <ExpensesItemsHeader totalExpenses={totalExpenses}>
-        Todos os gastos:
-      </ExpensesItemsHeader> */}
-      <SectionList
-        // sections={[
-        //   {  title: "Janeiro", data: expensesPerMonth[0].expenses },
-        //   { title: "Fevereiro", data: expensesPerMonth[1].expenses },
-        //   { title: "Março", data: expensesPerMonth[2].expenses },
-        //   { title: "Abril", data: expensesPerMonth[3].expenses },
-        //   { title: "Maio", data: expensesPerMonth[4].expenses },
-        //   { title: "Junho", data: expensesPerMonth[5].expenses },
-        //   { title: "Julho", data: expensesPerMonth[6].expenses },
-        //   { title: "Agosto", data: expensesPerMonth[7].expenses },
-        //   { title: "Setembro", data: expensesPerMonth[8].expenses },
-        //   { title: "Outubro", data: expensesPerMonth[9].expenses },
-        //   { title: "Novembro", data: expensesPerMonth[10].expenses },
-        //   { title: "Dezembro", data: expensesPerMonth[11].expenses },
-        // ]}
-        sections={monthsWithExpenses.map((month) => {
-          return { title: month.month, data: month.expenses };
-        })}
-        renderItem={({ item }) => (
-          <ExpenseItem
-            description={item.description}
-            date={format(item.date, "dd/MM/yyyy")}
-            price={item.price}
-            navigation={navigation}
-            route={route}
-            id={item.id}
-          />
-        )}
-        renderSectionHeader={({ section }) => {
-          return (
-            <View>
-              <Text>{section.title}</Text>
-            </View>
-          );
-        }}
-      />
+      <View>
+        <SectionList
+          ListHeaderComponent={
+            <ExpensesItemsHeader
+              totalExpenses={`R$ ${totalExpenses}`}
+              style={{ marginBottom: 2 }}
+            >
+              Total de gastos:
+            </ExpensesItemsHeader>
+          }
+          showsVerticalScrollIndicator={false}
+          sections={monthsWithExpenses.map((month) => {
+            return { title: month.month, data: month.expenses };
+          })}
+          renderItem={({ item }) => (
+            <ExpenseItem
+              description={item.description}
+              date={format(item.date, "dd/MM/yyyy", { locale: ptBR })}
+              price={item.price}
+              navigation={navigation}
+              route={route}
+              id={item.id}
+            />
+          )}
+          renderSectionHeader={({ section }) => {
+            return (
+              <ExpensesItemsHeader
+                textStyle={{
+                  fontFamily: "open-sans-semi-bold",
+                }}
+                totalExpenses={sumOfExpenses(section.data)}
+              >
+                {`${capitalizeFirstLetter(section.title)}:`}
+              </ExpensesItemsHeader>
+            );
+          }}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   rootContainer: {
-    flex: 1,
+    height: "100%",
     marginHorizontal: 20,
   },
 });

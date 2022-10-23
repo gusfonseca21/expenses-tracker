@@ -5,7 +5,7 @@ import { ExpenseItem } from "../components/ExpenseItem";
 import { useContext } from "react";
 import { ExpenseDataContext } from "../context/ExpensesDataContext";
 
-import { numberWithCommas, numberWithoutCommas } from "../helper/helper";
+import { sumOfExpenses } from "../helper/helper";
 import ExpensesItemsHeader from "../components/ExpensesItemsHeader";
 
 import { format } from "date-fns";
@@ -23,17 +23,12 @@ export function RecentExpensesScreen({ navigation, route }) {
       format(expense.date, "M") === currentMonth
   );
 
-  const totalExpenses = numberWithCommas(
-    filteredExpenses
-      .map((expense) => numberWithoutCommas(expense.price))
-      .reduce((accumulator, curr) => accumulator + curr)
-      .toFixed(2)
-  );
+  const totalExpenses = sumOfExpenses(filteredExpenses);
   return (
     <View style={styles.rootContainer}>
       <FlatList
         ListHeaderComponent={
-          <ExpensesItemsHeader totalExpenses={totalExpenses}>
+          <ExpensesItemsHeader totalExpenses={`R$ ${totalExpenses}`}>
             Gastos desta semana:
           </ExpensesItemsHeader>
         }

@@ -95,6 +95,30 @@ export default function App() {
       obs: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
       isBookmarked: true,
     },
+    {
+      id: 11,
+      description: "Pão",
+      price: "6,00",
+      date: 1666541684000,
+      obs: "5 pães",
+      isBookmarked: true,
+    },
+    {
+      id: 12,
+      description: "Bomba de chocolate",
+      price: "3,50",
+      date: 1666541684000,
+      obs: "",
+      isBookmarked: false,
+    },
+    {
+      id: 14,
+      description: "Carregador",
+      price: "30,00",
+      date: 1666541684000,
+      obs: "",
+      isBookmarked: false,
+    },
   ]);
 
   const [fontsLoaded] = useFonts({
@@ -168,7 +192,8 @@ export default function App() {
         }}
         sceneContainerStyle={{
           backgroundColor: "#192a56",
-          paddingBottom: 70,
+          flex: 1,
+          marginBottom: 6,
         }}
       >
         <Tab.Screen
