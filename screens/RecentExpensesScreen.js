@@ -9,6 +9,8 @@ import { sumOfExpenses } from "../helper/helper";
 import ExpensesItemsHeader from "../components/ExpensesItemsHeader";
 
 import { format } from "date-fns";
+import TextComponent from "../components/TextComponent";
+import { NoExpensesTextComponent } from "../components/NoExpensesTextComponent";
 
 export function RecentExpensesScreen({ navigation, route }) {
   const { ALL_EXPENSES } = useContext(ExpenseDataContext);
@@ -26,27 +28,34 @@ export function RecentExpensesScreen({ navigation, route }) {
   const totalExpenses = sumOfExpenses(filteredExpenses);
   return (
     <View style={styles.rootContainer}>
-      <FlatList
-        ListHeaderComponent={
-          <ExpensesItemsHeader totalExpenses={`R$ ${totalExpenses}`}>
-            Gastos desta semana:
-          </ExpensesItemsHeader>
-        }
-        data={filteredExpenses}
-        showsVerticalScrollIndicator={false}
-        renderItem={(itemData) => {
-          return (
-            <ExpenseItem
-              description={itemData.item.description}
-              date={format(itemData.item.date, "dd/MM/yyyy")}
-              price={itemData.item.price}
-              navigation={navigation}
-              route={route}
-              id={itemData.item.id}
-            />
-          );
-        }}
-      />
+      {filteredExpenses.length > 0 && (
+        <FlatList
+          ListHeaderComponent={
+            <ExpensesItemsHeader totalExpenses={`R$ ${totalExpenses}`}>
+              Gastos desta semana:
+            </ExpensesItemsHeader>
+          }
+          data={filteredExpenses}
+          showsVerticalScrollIndicator={false}
+          renderItem={(itemData) => {
+            return (
+              <ExpenseItem
+                description={itemData.item.description}
+                date={format(itemData.item.date, "dd/MM/yyyy")}
+                price={itemData.item.price}
+                navigation={navigation}
+                route={route}
+                id={itemData.item.id}
+              />
+            );
+          }}
+        />
+      )}
+      {filteredExpenses.length === 0 && (
+        <NoExpensesTextComponent>
+          Você ainda não possui gastos esta semana
+        </NoExpensesTextComponent>
+      )}
     </View>
   );
 }

@@ -1,3 +1,5 @@
+import { ToastAndroid } from "react-native";
+
 export function numberWithoutCommas(x) {
   return Number(x.replace(",", "."));
 }
@@ -11,10 +13,22 @@ export function capitalizeFirstLetter(string) {
 }
 
 export function sumOfExpenses(expensesArr) {
-  return numberWithCommas(
-    expensesArr
-      .map((expense) => numberWithoutCommas(expense.price))
-      .reduce((accumulator, curr) => accumulator + curr)
-      .toFixed(2)
+  if (expensesArr.length < 1) {
+    return null;
+  } else {
+    return numberWithCommas(
+      expensesArr
+        .map((expense) => numberWithoutCommas(expense.price))
+        .reduce((accumulator, curr) => accumulator + curr)
+        .toFixed(2)
+    );
+  }
+}
+
+export function toastMessage(message) {
+  ToastAndroid.showWithGravity(
+    message,
+    ToastAndroid.SHORT,
+    ToastAndroid.CENTER
   );
 }

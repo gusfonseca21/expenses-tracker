@@ -10,6 +10,7 @@ import ExpensesItemsHeader from "../components/ExpensesItemsHeader";
 
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { NoExpensesTextComponent } from "../components/NoExpensesTextComponent";
 
 export function AllExpensesScreen({ navigation, route }) {
   const { ALL_EXPENSES } = useContext(ExpenseDataContext);
@@ -45,7 +46,7 @@ export function AllExpensesScreen({ navigation, route }) {
 
   return (
     <View style={styles.rootContainer}>
-      <View>
+      {monthsWithExpenses.length > 0 && (
         <SectionList
           ListHeaderComponent={
             <ExpensesItemsHeader
@@ -82,7 +83,12 @@ export function AllExpensesScreen({ navigation, route }) {
             );
           }}
         />
-      </View>
+      )}
+      {monthsWithExpenses.length === 0 && (
+        <NoExpensesTextComponent>
+          Você ainda não possui gastos
+        </NoExpensesTextComponent>
+      )}
     </View>
   );
 }

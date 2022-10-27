@@ -1,11 +1,4 @@
-import {
-  Pressable,
-  StyleSheet,
-  View,
-  Modal,
-  Alert,
-  Button,
-} from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { useState } from "react";
 
 import { useContext } from "react";
@@ -14,10 +7,15 @@ import TextComponent from "../components/TextComponent";
 
 import { format } from "date-fns";
 
+import { toastMessage } from "../helper/helper";
+
 import { Ionicons } from "@expo/vector-icons";
+import { ConfirmDeleteExpenseModal } from "../components/modals/ConfirmDeleteExpenseModal";
+
+import { BlurView } from "expo-blur";
 
 export function DetailedExpenseScreen({ route, navigation }) {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const { ALL_EXPENSES, setAllExpenses } = useContext(ExpenseDataContext);
 
@@ -39,47 +37,21 @@ export function DetailedExpenseScreen({ route, navigation }) {
   function deleteExpenseHandler() {
     setAllExpenses(ALL_EXPENSES.filter((expense) => expense.id !== id));
     navigation.navigate("Home");
+    setTimeout(() => {
+      toastMessage("Produto deletado com sucesso");
+    }, 700);
   }
 
   return (
     <View style={styles.rootView}>
-      <Modal
-        animationType="fade"
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-        visible={modalVisible}
-        transparent={true}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <TextComponent
-              style={{ color: "#ecf0f1", fontFamily: "open-sans-semi-bold" }}
-            >
-              Deseja deletar esta despesa?
-            </TextComponent>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-around",
-                marginTop: 10,
-              }}
-            >
-              <Pressable>
-                <View style={styles.modalButtonsView}>
-                  <TextComponent>Sim</TextComponent>
-                </View>
-              </Pressable>
-              <Pressable>
-                <View style={styles.modalButtonsView}>
-                  <TextComponent>Não</TextComponent>
-                </View>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <ConfirmDeleteExpenseModal
+        modalVisible={deleteModalVisible}
+        setModalVisible={setDeleteModalVisible}
+        deleteExpense={deleteExpenseHandler}
+      />
+      {deleteModalVisible && (
+        <BlurView intensity={100} style={styles.blurContainer} tint="dark" />
+      )}
       <View style={styles.expenseView}>
         <View style={styles.iconView}>
           <Pressable onPress={bookmarkPressHandler}>
@@ -126,7 +98,7 @@ export function DetailedExpenseScreen({ route, navigation }) {
         </TextComponent>
       </View>
       <View style={styles.iconsView}>
-        <Pressable onPress={() => setModalVisible(true)}>
+        <Pressable onPress={() => setDeleteModalVisible(true)}>
           <Ionicons name="trash-outline" size={30} color={"#ccc"} />
         </Pressable>
         <Pressable>
@@ -144,30 +116,14 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
 
-  modalView: {
-    margin: 20,
-    backgroundColor: "#273c75",
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalButtonsView: {
-    backgroundColor: "white",
-    padding: 5,
+  blurContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    zIndex: 1000,
   },
 
   iconView: {

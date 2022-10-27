@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { ExpenseDataContext } from "../context/ExpensesDataContext";
 
 import { format } from "date-fns";
+import { NoExpensesTextComponent } from "../components/NoExpensesTextComponent";
 
 export function BookmarkedExpensesScreen({ navigation, route }) {
   const { ALL_EXPENSES } = useContext(ExpenseDataContext);
@@ -17,7 +18,7 @@ export function BookmarkedExpensesScreen({ navigation, route }) {
 
   return (
     <View style={styles.rootContainer}>
-      <View style={styles.items}>
+      {bookmarkedExpenses.length > 0 && (
         <FlatList
           data={bookmarkedExpenses}
           showsVerticalScrollIndicator={false}
@@ -34,7 +35,12 @@ export function BookmarkedExpensesScreen({ navigation, route }) {
             );
           }}
         />
-      </View>
+      )}
+      {bookmarkedExpenses.length === 0 && (
+        <NoExpensesTextComponent>
+          Você ainda não possui nenhuma despesa favoritada
+        </NoExpensesTextComponent>
+      )}
     </View>
   );
 }
@@ -43,8 +49,5 @@ const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     marginHorizontal: 20,
-  },
-  items: {
-    flexDirection: "column",
   },
 });
