@@ -1,16 +1,16 @@
-import { Pressable, StyleSheet, View } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-import { useContext } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
+
 import { ExpenseDataContext } from "../context/ExpensesDataContext";
-import TextComponent from "../components/TextComponent";
+
+import { TextComponent, ConfirmDeleteExpenseModal } from "../components";
 
 import { format } from "date-fns";
 
 import { toastMessage } from "../helper/helper";
 
 import { Ionicons } from "@expo/vector-icons";
-import { ConfirmDeleteExpenseModal } from "../components/modals/ConfirmDeleteExpenseModal";
 
 import { BlurView } from "expo-blur";
 

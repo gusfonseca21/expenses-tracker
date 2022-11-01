@@ -1,24 +1,14 @@
 import { useLayoutEffect, useState } from "react";
 
 import { StatusBar } from "expo-status-bar";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { RecentExpensesScreen } from "./screens/RecentExpensesScreen";
-import { MonthExpensesScreen } from "./screens/MonthExpensesScreen";
-import { DetailedExpenseScreen } from "./screens/DetailedExpenseScreen";
-import { AllExpensesScreen } from "./screens/AllExpensesScreen";
-import { NewExpenseScreen } from "./screens/NewExpenseScreen";
-import { BookmarkedExpensesScreen } from "./screens/BookmarkedExpensesScreen";
-
-import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 
 import { ExpenseDataContext } from "./context/ExpensesDataContext";
 
 import AppLoading from "expo-app-loading";
-import { Pressable } from "react-native";
+
+import { StackNavigator } from "./components/navigators/StackNavigator";
 
 export default function App() {
   const [ALL_EXPENSES, setAllExpenses] = useState([
@@ -131,135 +121,15 @@ export default function App() {
     setAllExpenses(ALL_EXPENSES.reverse());
   }, []);
 
-  const Tab = createBottomTabNavigator();
-  const Stack = createNativeStackNavigator();
-
-  const screenOptions = (icon, title) => {
-    return {
-      title: title,
-      headerTintColor: "#e1b12c",
-      headerTitleAlign: "center",
-      tabBarIcon: ({ size, color }) => (
-        <Ionicons name={icon} size={size} color={color} />
-      ),
-    };
-  };
-
   if (!fontsLoaded) {
     return <AppLoading />;
-  }
-
-  function MainTabNavigator({ navigation }) {
-    return (
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: {
-            backgroundColor: "#273c75",
-            borderTopWidth: 1,
-            borderTopColor: "#ccc",
-          },
-          tabBarActiveTintColor: "#e1b12c",
-          tabBarInactiveTintColor: "#ccc",
-          headerStyle: {
-            backgroundColor: "#273c75",
-            borderBottomWidth: 1,
-            borderBottomColor: "#ccc",
-          },
-          headerTitleStyle: {
-            fontFamily: "open-sans-bold",
-          },
-
-          headerRight: () => (
-            <Pressable onPress={() => navigation.navigate("NewExpense")}>
-              <Ionicons
-                name="add-outline"
-                size={30}
-                color="white"
-                style={{ right: 15 }}
-              />
-            </Pressable>
-          ),
-          headerLeft: () => (
-            <Pressable onPress={() => navigation.navigate("Bookmarked")}>
-              <Ionicons
-                name="bookmark-outline"
-                size={25}
-                color="white"
-                style={{ left: 15 }}
-              />
-            </Pressable>
-          ),
-        }}
-        sceneContainerStyle={{
-          backgroundColor: "#192a56",
-          flex: 1,
-          marginBottom: 6,
-        }}
-      >
-        <Tab.Screen
-          name="RecentExpenses"
-          component={RecentExpensesScreen}
-          options={screenOptions("alarm-outline", "Despesas Recentes")}
-        />
-        <Tab.Screen
-          name="MonthExpenses"
-          component={MonthExpensesScreen}
-          options={screenOptions("calendar-outline", "Despesas Mensais")}
-        />
-        <Tab.Screen
-          name="AllExpenses"
-          component={AllExpensesScreen}
-          options={screenOptions("calculator-outline", "Todas as Despesas")}
-        />
-      </Tab.Navigator>
-    );
   }
 
   return (
     <>
       <StatusBar style="light" />
       <ExpenseDataContext.Provider value={{ ALL_EXPENSES, setAllExpenses }}>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: "#273c75",
-              },
-              contentStyle: {
-                backgroundColor: "#192a56",
-              },
-              headerTintColor: "#ecf0f1",
-              headerTitleStyle: {
-                color: "#e1b12c",
-                fontFamily: "open-sans-bold",
-              },
-              headerTitleAlign: "center",
-            }}
-          >
-            <Stack.Screen
-              options={{
-                headerShown: false,
-              }}
-              name="Home"
-              component={MainTabNavigator}
-            />
-            <Stack.Screen
-              name="Details"
-              component={DetailedExpenseScreen}
-              options={{ headerTitle: "Detalhes" }}
-            />
-            <Stack.Screen
-              name="NewExpense"
-              component={NewExpenseScreen}
-              options={{ headerTitle: "Nova Despesa" }}
-            />
-            <Stack.Screen
-              name="Bookmarked"
-              component={BookmarkedExpensesScreen}
-              options={{ headerTitle: "Despesas Favoritadas" }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <StackNavigator />
       </ExpenseDataContext.Provider>
     </>
   );

@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import TextComponent from "./TextComponent";
 
-export default function ExpensesItemsHeader({
+export function ExpensesItemsHeader({
   children,
   totalExpenses,
   style,

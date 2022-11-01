@@ -1,7 +1,7 @@
 import { Text } from "react-native";
 import React from "react";
 
-export default function TextComponent(props) {
+export function TextComponent(props) {
   return (
     <Text
       {...props}

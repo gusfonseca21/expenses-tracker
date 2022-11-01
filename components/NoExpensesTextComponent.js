@@ -1,6 +1,6 @@
-import { View, StyleSheet } from "react-native";
 import React from "react";
-import TextComponent from "./TextComponent";
+import { View, StyleSheet } from "react-native";
+import { TextComponent } from "../components/TextComponent";
 
 export function NoExpensesTextComponent({ children }) {
   return (

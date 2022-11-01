@@ -1,16 +1,18 @@
-import React from "react";
-import { StyleSheet, View, FlatList } from "react-native";
-import { ExpenseItem } from "../components/ExpenseItem";
-
 import { useContext } from "react";
+
+import { StyleSheet, View, FlatList } from "react-native";
+
+import {
+  ExpenseItem,
+  ExpensesItemsHeader,
+  NoExpensesTextComponent,
+} from "../components";
+
 import { ExpenseDataContext } from "../context/ExpensesDataContext";
 
 import { sumOfExpenses } from "../helper/helper";
-import ExpensesItemsHeader from "../components/ExpensesItemsHeader";
 
 import { format } from "date-fns";
-import TextComponent from "../components/TextComponent";
-import { NoExpensesTextComponent } from "../components/NoExpensesTextComponent";
 
 export function RecentExpensesScreen({ navigation, route }) {
   const { ALL_EXPENSES } = useContext(ExpenseDataContext);

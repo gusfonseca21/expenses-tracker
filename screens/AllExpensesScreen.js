@@ -1,16 +1,19 @@
-import React from "react";
-import { StyleSheet, View, SectionList } from "react-native";
-import { ExpenseItem } from "../components/ExpenseItem";
-
 import { useContext } from "react";
+
+import { StyleSheet, View, SectionList } from "react-native";
+
+import {
+  ExpenseItem,
+  ExpensesItemsHeader,
+  NoExpensesTextComponent,
+} from "../components";
+
 import { ExpenseDataContext } from "../context/ExpensesDataContext";
 
 import { capitalizeFirstLetter, sumOfExpenses } from "../helper/helper";
-import ExpensesItemsHeader from "../components/ExpensesItemsHeader";
 
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { NoExpensesTextComponent } from "../components/NoExpensesTextComponent";
 
 export function AllExpensesScreen({ navigation, route }) {
   const { ALL_EXPENSES } = useContext(ExpenseDataContext);
