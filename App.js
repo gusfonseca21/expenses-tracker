@@ -117,9 +117,7 @@ export default function App() {
     "open-sans-semi-bold": require("./assets/fonts/Inter-SemiBold.ttf"),
   });
 
-  useLayoutEffect(() => {
-    setAllExpenses(ALL_EXPENSES.reverse());
-  }, []);
+  if (ALL_EXPENSES[0].id === 1) ALL_EXPENSES.reverse();
 
   if (!fontsLoaded) {
     return <AppLoading />;

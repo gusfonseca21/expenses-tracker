@@ -9,7 +9,9 @@ import { TextComponent } from "../components";
 import { useContext } from "react";
 import { ExpensesDataContext } from "../context/ExpensesDataContext";
 
-export function NewExpenseScreen() {
+import { toastMessage } from "../helper/helper";
+
+export function NewExpenseScreen({ navigation }) {
   const [expenseDescription, setExpenseDescription] = useState({
     value: "",
     error: "",
@@ -21,60 +23,59 @@ export function NewExpenseScreen() {
   const { ALL_EXPENSES, setAllExpenses } = useContext(ExpensesDataContext);
 
   function addExpenseHandler() {
-    validadeInputs();
-
-    if (
-      expenseDescription.error === "" ||
-      expenseCost.error === "" ||
-      expenseDate.error === ""
-    ) {
-      const transformedDate = `${
-        expenseDate.value[3] +
-        expenseDate.value[4] +
-        "/" +
-        expenseDate.value[0] +
-        expenseDate.value[1] +
-        "/" +
-        expenseDate.value[6] +
-        expenseDate.value[7] +
-        expenseDate.value[8] +
-        expenseDate.value[9]
-      }`;
-
-      const newExpense = {
-        id: ALL_EXPENSES.length + 1,
-        description: expenseDescription.value,
-        price: expenseCost.value.toString().replace(".", ","),
-        date: new Date(transformedDate).valueOf(),
-        obs: expenseObservation,
-        isBookmarked: false,
-      };
-
-      setAllExpenses((prevExpenses) => [...prevExpenses, newExpense]);
-    } else {
-      return;
-    }
-  }
-
-  function validadeInputs() {
     if (expenseDescription.value.trim() === "") {
       setExpenseDescription({
         value: "",
         error: "É preciso conter uma descrição!",
       });
+      return;
     }
     if (expenseCost.value === "" || expenseCost.value <= 0) {
       setExpenseCost({
         value: "",
         error: "É preciso conter um valor!",
       });
+      return;
     }
     if (expenseDate.value === "" || expenseDate.value.length !== 10) {
-      console.log(
-        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-      );
       setExpenseDate({ value: "", error: "É preciso conter uma data válida!" });
+      return;
     }
+
+    const transformedDate = `${
+      expenseDate.value[3] +
+      expenseDate.value[4] +
+      "/" +
+      expenseDate.value[0] +
+      expenseDate.value[1] +
+      "/" +
+      expenseDate.value[6] +
+      expenseDate.value[7] +
+      expenseDate.value[8] +
+      expenseDate.value[9]
+    }`;
+
+    const newExpense = {
+      id: ALL_EXPENSES.length + 1,
+      description: expenseDescription.value,
+      price: expenseCost.value.toFixed(2).toString().replace(".", ","),
+      date: new Date(transformedDate).valueOf(),
+      obs: expenseObservation,
+      isBookmarked: false,
+    };
+
+    setAllExpenses((prevExpenses) => [newExpense, ...prevExpenses]);
+
+    setExpenseDescription({ value: "", error: "" });
+    setExpenseCost({ value: "", error: "" });
+    setExpenseDate({ value: "", error: "" });
+    setExpenseObservation("");
+
+    navigation.navigate("RecentExpenses");
+
+    setTimeout(() => {
+      toastMessage("Produto criado com sucesso");
+    }, 700);
   }
 
   return (
@@ -170,6 +171,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 20,
     marginTop: 20,
+    justifyContent: "space-around",
   },
   inputTitle: {
     fontSize: 20,
@@ -180,7 +182,6 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#ecf0f1",
     fontSize: 18,
-    marginBottom: 30,
     borderRadius: 4,
   },
   buttonView: {

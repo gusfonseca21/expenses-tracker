@@ -41,7 +41,7 @@ export function ConfirmDeleteExpenseModal({
                 </TextComponent>
               </View>
             </Pressable>
-            <Pressable>
+            <Pressable onPress={() => setModalVisible(!modalVisible)}>
               <View style={styles.modalButtonsView}>
                 <TextComponent style={{ textAlign: "center" }}>
                   Não

@@ -98,11 +98,19 @@ export function DetailedExpenseScreen({ route, navigation }) {
         </TextComponent>
       </View>
       <View style={styles.iconsView}>
-        <Pressable onPress={() => setDeleteModalVisible(true)}>
-          <Ionicons name="trash-outline" size={30} color={"#ccc"} />
+        <Pressable
+          onPress={() => setDeleteModalVisible(true)}
+          android_ripple={{ color: "#ccc" }}
+        >
+          <View style={styles.singleIconView}>
+            <Ionicons name="trash-outline" size={30} color={"#ccc"} />
+          </View>
         </Pressable>
-        <Pressable>
-          <Ionicons name="pencil" size={30} color={"#ccc"} />
+
+        <Pressable android_ripple={{ color: "#ccc" }}>
+          <View style={styles.singleIconView}>
+            <Ionicons name="pencil" size={30} color={"#ccc"} />
+          </View>
         </Pressable>
       </View>
     </View>
@@ -141,10 +149,16 @@ const styles = StyleSheet.create({
   },
   iconsView: {
     position: "absolute",
-    bottom: 20,
+    bottom: 0,
     alignSelf: "center",
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-around",
+  },
+  singleIconView: {
+    width: 80,
+    height: 70,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
