@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 
 import { useFonts } from "expo-font";
 
-import { ExpenseDataContext } from "./context/ExpensesDataContext";
+import { ExpensesDataContext } from "./context/ExpensesDataContext";
 
 import AppLoading from "expo-app-loading";
 
@@ -102,7 +102,7 @@ export default function App() {
       isBookmarked: false,
     },
     {
-      id: 14,
+      id: 13,
       description: "Carregador",
       price: "30,00",
       date: 1666541684000,
@@ -128,9 +128,9 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <ExpenseDataContext.Provider value={{ ALL_EXPENSES, setAllExpenses }}>
+      <ExpensesDataContext.Provider value={{ ALL_EXPENSES, setAllExpenses }}>
         <StackNavigator />
-      </ExpenseDataContext.Provider>
+      </ExpensesDataContext.Provider>
     </>
   );
 }

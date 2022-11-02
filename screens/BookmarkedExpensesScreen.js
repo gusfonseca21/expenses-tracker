@@ -4,13 +4,13 @@ import { StyleSheet, View, FlatList } from "react-native";
 import { ExpenseItem } from "../components/ExpenseItem";
 
 import { useContext } from "react";
-import { ExpenseDataContext } from "../context/ExpensesDataContext";
+import { ExpensesDataContext } from "../context/ExpensesDataContext";
 
 import { format } from "date-fns";
 import { NoExpensesTextComponent } from "../components/NoExpensesTextComponent";
 
 export function BookmarkedExpensesScreen({ navigation, route }) {
-  const { ALL_EXPENSES } = useContext(ExpenseDataContext);
+  const { ALL_EXPENSES } = useContext(ExpensesDataContext);
 
   const bookmarkedExpenses = ALL_EXPENSES.filter(
     (expense) => expense.isBookmarked === true

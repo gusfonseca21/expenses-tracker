@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Pressable } from "react-native";
 
-import TextComponent from "../components/TextComponent";
+import { TextComponent } from "../components/TextComponent";
 
 export function ExpenseItem({ description, date, price, navigation, id }) {
   const pressHandler = () => {

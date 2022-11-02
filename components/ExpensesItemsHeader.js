@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-
-import TextComponent from "./TextComponent";
+import { TextComponent } from "./TextComponent";
 
 export function ExpensesItemsHeader({
   children,

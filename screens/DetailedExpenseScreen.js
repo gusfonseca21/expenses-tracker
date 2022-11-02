@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 
 import { Pressable, StyleSheet, View } from "react-native";
 
-import { ExpenseDataContext } from "../context/ExpensesDataContext";
+import { ExpensesDataContext } from "../context/ExpensesDataContext";
 
 import { TextComponent, ConfirmDeleteExpenseModal } from "../components";
 
@@ -17,7 +17,7 @@ import { BlurView } from "expo-blur";
 export function DetailedExpenseScreen({ route, navigation }) {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-  const { ALL_EXPENSES, setAllExpenses } = useContext(ExpenseDataContext);
+  const { ALL_EXPENSES, setAllExpenses } = useContext(ExpensesDataContext);
 
   const id = route.params.expenseId;
 

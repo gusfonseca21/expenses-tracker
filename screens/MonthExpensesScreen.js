@@ -8,14 +8,14 @@ import {
   NoExpensesTextComponent,
 } from "../components";
 
-import { ExpenseDataContext } from "../context/ExpensesDataContext";
+import { ExpensesDataContext } from "../context/ExpensesDataContext";
 
 import { sumOfExpenses } from "../helper/helper";
 
 import { format } from "date-fns";
 
 export function MonthExpensesScreen({ navigation, route }) {
-  const { ALL_EXPENSES } = useContext(ExpenseDataContext);
+  const { ALL_EXPENSES } = useContext(ExpensesDataContext);
 
   const currentMonth = format(new Date(), "M");
 

@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const ExpenseDataContext = createContext({});
+export const ExpensesDataContext = createContext({});

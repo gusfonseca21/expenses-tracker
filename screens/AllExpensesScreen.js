@@ -8,7 +8,7 @@ import {
   NoExpensesTextComponent,
 } from "../components";
 
-import { ExpenseDataContext } from "../context/ExpensesDataContext";
+import { ExpensesDataContext } from "../context/ExpensesDataContext";
 
 import { capitalizeFirstLetter, sumOfExpenses } from "../helper/helper";
 
@@ -16,7 +16,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 export function AllExpensesScreen({ navigation, route }) {
-  const { ALL_EXPENSES } = useContext(ExpenseDataContext);
+  const { ALL_EXPENSES } = useContext(ExpensesDataContext);
 
   const expensesPerMonth = [
     { month: "janeiro", expenses: [], totalExpenses: 0 },

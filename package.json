@@ -14,11 +14,13 @@
     "date-fns": "^2.29.3",
     "expo": "~46.0.16",
     "expo-app-loading": "~2.1.0",
+    "expo-blur": "~11.2.0",
     "expo-font": "~10.2.0",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
     "react-native": "0.69.6",
-    "expo-blur": "~11.2.0"
+    "react-native-currency-input": "^1.0.1",
+    "react-native-mask-input": "^1.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

@@ -1,5 +1,5 @@
 import { View, Modal, Pressable, StyleSheet } from "react-native";
-import TextComponent from "../TextComponent";
+import { TextComponent } from "../TextComponent";
 import React from "react";
 
 export function ConfirmDeleteExpenseModal({
