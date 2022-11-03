@@ -107,7 +107,14 @@ export function DetailedExpenseScreen({ route, navigation }) {
           </View>
         </Pressable>
 
-        <Pressable android_ripple={{ color: "#ccc" }}>
+        <Pressable
+          android_ripple={{ color: "#ccc" }}
+          onPress={() =>
+            navigation.navigate("EditExpense", {
+              expenseId: id,
+            })
+          }
+        >
           <View style={styles.singleIconView}>
             <Ionicons name="pencil" size={30} color={"#ccc"} />
           </View>

@@ -11,16 +11,30 @@ import { ExpensesDataContext } from "../context/ExpensesDataContext";
 
 import { toastMessage } from "../helper/helper";
 
-export function NewExpenseScreen({ navigation }) {
+import { format } from "date-fns";
+
+export function EditExpenseScreen({ route, navigation }) {
+  const { ALL_EXPENSES, setAllExpenses } = useContext(ExpensesDataContext);
+
+  const id = route.params.expenseId;
+
+  const [selectedExpense] = ALL_EXPENSES.filter((expense) => expense.id === id);
+
   const [expenseDescription, setExpenseDescription] = useState({
-    value: "",
+    value: selectedExpense.description,
     error: "",
   });
-  const [expenseCost, setExpenseCost] = useState({ value: "", error: "" });
-  const [expenseDate, setExpenseDate] = useState({ value: "", error: "" });
-  const [expenseObservation, setExpenseObservation] = useState("");
-
-  const { ALL_EXPENSES, setAllExpenses } = useContext(ExpensesDataContext);
+  const [expenseCost, setExpenseCost] = useState({
+    value: parseInt(selectedExpense.price),
+    error: "",
+  });
+  const [expenseDate, setExpenseDate] = useState({
+    value: format(selectedExpense.date, "dd/MM/yyyy"),
+    error: "",
+  });
+  const [expenseObservation, setExpenseObservation] = useState(
+    selectedExpense.obs
+  );
 
   function addExpenseHandler() {
     if (expenseDescription.value.trim() === "") {
@@ -55,26 +69,35 @@ export function NewExpenseScreen({ navigation }) {
       expenseDate.value[9]
     }`;
 
-    const newExpense = {
-      id: ALL_EXPENSES.length + 1,
+    const editedExpense = {
+      id: selectedExpense.id,
       description: expenseDescription.value,
       price: expenseCost.value.toFixed(2).toString().replace(".", ","),
       date: new Date(transformedDate).valueOf(),
       obs: expenseObservation,
-      isBookmarked: false,
+      isBookmarked: selectedExpense.isBookmarked,
     };
 
-    setAllExpenses((prevExpenses) => [newExpense, ...prevExpenses]);
+    // setAllExpenses((prevExpenses) => [newExpense, ...prevExpenses]);
+
+    const newExpensesArray = ALL_EXPENSES.map((expense) => {
+      if (expense.id === selectedExpense.id) {
+        return editedExpense;
+      }
+      return expense;
+    });
+
+    setAllExpenses(newExpensesArray);
 
     setExpenseDescription({ value: "", error: "" });
     setExpenseCost({ value: "", error: "" });
     setExpenseDate({ value: "", error: "" });
     setExpenseObservation("");
 
-    navigation.navigate("RecentExpenses");
+    navigation.goBack();
 
     setTimeout(() => {
-      toastMessage("Produto criado com sucesso");
+      toastMessage("Produto editado com sucesso");
     }, 700);
   }
 
@@ -158,7 +181,7 @@ export function NewExpenseScreen({ navigation }) {
               fontSize: 20,
             }}
           >
-            Adicionar
+            Editar
           </TextComponent>
         </View>
       </Pressable>

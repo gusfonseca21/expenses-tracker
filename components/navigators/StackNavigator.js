@@ -9,6 +9,7 @@ import {
   DetailedExpenseScreen,
   NewExpenseScreen,
   BookmarkedExpensesScreen,
+  EditExpenseScreen,
 } from "../../screens";
 
 export function StackNavigator() {
@@ -52,6 +53,11 @@ export function StackNavigator() {
           name="Bookmarked"
           component={BookmarkedExpensesScreen}
           options={{ headerTitle: "Despesas Favoritadas" }}
+        />
+        <Stack.Screen
+          name="EditExpense"
+          component={EditExpenseScreen}
+          options={{ headerTitle: "Editar Despesa" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
