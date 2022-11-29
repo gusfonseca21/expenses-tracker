@@ -9,7 +9,7 @@ import { TextComponent } from "../components";
 import { useContext } from "react";
 import { ExpensesDataContext } from "../context/ExpensesDataContext";
 
-import { toastMessage } from "../helper/helper";
+import { editExpense, toastMessage } from "../helper/helper";
 
 import { format } from "date-fns";
 
@@ -78,7 +78,7 @@ export function EditExpenseScreen({ route, navigation }) {
       isBookmarked: selectedExpense.isBookmarked,
     };
 
-    // setAllExpenses((prevExpenses) => [newExpense, ...prevExpenses]);
+    editExpense(editedExpense);
 
     const newExpensesArray = ALL_EXPENSES.map((expense) => {
       if (expense.id === selectedExpense.id) {

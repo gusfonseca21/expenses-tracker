@@ -8,7 +8,7 @@ import { TextComponent, ConfirmDeleteExpenseModal } from "../components";
 
 import { format } from "date-fns";
 
-import { toastMessage } from "../helper/helper";
+import { deleteExpense, toastMessage } from "../helper/helper";
 
 import { Ionicons } from "@expo/vector-icons";
 
@@ -36,6 +36,7 @@ export function DetailedExpenseScreen({ route, navigation }) {
 
   function deleteExpenseHandler() {
     setAllExpenses(ALL_EXPENSES.filter((expense) => expense.id !== id));
+    deleteExpense(selectedExpense);
     navigation.navigate("Home");
     setTimeout(() => {
       toastMessage("Produto deletado com sucesso");

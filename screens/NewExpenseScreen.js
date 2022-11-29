@@ -9,7 +9,7 @@ import { TextComponent } from "../components";
 import { useContext } from "react";
 import { ExpensesDataContext } from "../context/ExpensesDataContext";
 
-import { toastMessage } from "../helper/helper";
+import { storeExpense, toastMessage } from "../helper/helper";
 
 export function NewExpenseScreen({ navigation }) {
   const [expenseDescription, setExpenseDescription] = useState({
@@ -56,7 +56,6 @@ export function NewExpenseScreen({ navigation }) {
     }`;
 
     const newExpense = {
-      id: ALL_EXPENSES.length + 1,
       description: expenseDescription.value,
       price: expenseCost.value.toFixed(2).toString().replace(".", ","),
       date: new Date(transformedDate).valueOf(),
@@ -65,6 +64,8 @@ export function NewExpenseScreen({ navigation }) {
     };
 
     setAllExpenses((prevExpenses) => [newExpense, ...prevExpenses]);
+
+    storeExpense(newExpense);
 
     setExpenseDescription({ value: "", error: "" });
     setExpenseCost({ value: "", error: "" });
